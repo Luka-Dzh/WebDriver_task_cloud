@@ -8,8 +8,10 @@ import org.openqa.selenium.support.FindBy;
 
 
 public class LoginPage extends BasePage {
-    @FindBy(xpath = "//input[@class='mb2a7b' and @name='q']")
+    @FindBy(xpath = "//div[@class='YSM5S']")
     private WebElement searchIcon;
+    @FindBy(xpath = "//input[@class='qdOxv-fmcmS-wGMbrd']")
+    private WebElement input;
 
     public LoginPage(WebDriver driver) {
         super(driver);
@@ -21,9 +23,9 @@ public class LoginPage extends BasePage {
     }
 
     public StartingPage search() {
-        this.searchIcon.click();
-        this.searchIcon.sendKeys("Google Cloud Platform Pricing Calculator");
-        this.searchIcon.sendKeys(Keys.ENTER);
+        this.waitForElements(searchIcon).click();
+        this.input.sendKeys("Google Cloud Platform Pricing Calculator");
+        this.input.sendKeys(Keys.ENTER);
 
         return new StartingPage(driver);
     }

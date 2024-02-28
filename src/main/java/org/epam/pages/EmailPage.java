@@ -2,10 +2,8 @@ package org.epam.pages;
 
 import org.epam.BasePage;
 import org.openqa.selenium.*;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
@@ -17,7 +15,7 @@ public class EmailPage extends BasePage {
 
     @FindBy(xpath = "//div[@id=\"geny\"]")
     private WebElement email;
-    @FindBy(xpath = "//input[@id=\"input_615\"]")
+    @FindBy(xpath = "//input[@type=\"email\"]")
     private WebElement emailField;
     @FindBy(xpath = "//button[@class=\"md-raised md-primary cpc-button md-button md-ink-ripple\"and contains(text(),\"Send Email\")]")
     private WebElement sendEmail;
@@ -51,9 +49,6 @@ public class EmailPage extends BasePage {
         randomEmail.click();
         driver.navigate().back();
         randomEmail.click();
-        //WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        //WebElement adCloseButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id=\"dismiss-button\"]")));
-        //adCloseButton.click();
 
         String copyEmail = email.getText();
 
@@ -79,10 +74,12 @@ public class EmailPage extends BasePage {
     }
     public String estimatedEmail(){
         driver.navigate().refresh();
+        driver.navigate().refresh();
         WebElement iFrame = new WebDriverWait(driver, Duration.ofSeconds(20))
                 .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"ifmail\"]")));
         driver.switchTo().frame("ifmail");
-        String estimation = driver.findElement(By.xpath("//*[contains(text(),\"Estimated Monthly Cost:\")]")).getText();
+        String estimation = driver.findElement(By.xpath("//td[@style=\"margin-left: 11px !important; border: 1px solid rgba(187, 187, 187, 1) !important; padding: 14px !important; font-size: 13px !important; vertical-align: top\" and contains(text(),\"USD\")]")).getText();
+        String estimation2 = driver.findElement(By.xpath("//*[contains(text(),\"Estimated Monthly Cost:\")]")).getText();
         return estimation;
     }
 }

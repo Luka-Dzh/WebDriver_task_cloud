@@ -1,33 +1,33 @@
 package org.epam;
 
 
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.epam.pages.CalculatorPage;
 import org.epam.pages.EmailPage;
 import org.epam.pages.LoginPage;
 import org.epam.pages.StartingPage;
-import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.time.Duration;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-public class AppTest extends BaseTest
-{
+
+public class AppTest extends BaseTest {
 
     @BeforeMethod
     public void setUp() {
         setUpWebDriver();
     }
+
     @AfterMethod
     public void closeDriver() {
-       quit();
+        //quit();
     }
 
     @Test
-    public void cloudTest(){
+    public void cloudTest() {
         LoginPage loginPage = new LoginPage(driver);
         loginPage.open().search();
 
@@ -40,6 +40,19 @@ public class AppTest extends BaseTest
         EmailPage emailPage = new EmailPage(driver);
         emailPage.open().creatingEmail();
 
-        Assert.assertEquals(emailPage.estimatedEmail(),calculatorPage.estimated());
+        String estimated = emailPage.estimatedEmail();
+        String expected = calculatorPage.estimated();
+        Assert.assertEquals(extractDigits(estimated), extractDigits(expected));
+    }
+    private static String extractDigits(String input) {
+        StringBuilder result = new StringBuilder();
+        Pattern pattern = Pattern.compile("\\d+\\.?\\d*");
+        Matcher matcher = pattern.matcher(input);
+
+        while (matcher.find()) {
+            result.append(matcher.group());
+        }
+
+        return result.toString();
     }
 }

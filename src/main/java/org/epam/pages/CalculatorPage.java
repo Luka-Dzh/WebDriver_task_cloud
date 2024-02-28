@@ -9,31 +9,33 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class CalculatorPage extends BasePage {
-    @FindBy(xpath = "//*[@id=\"input_98\"]")
+    @FindBy(xpath = "//*[@id=\"input_100\"]")
     private WebElement numberOfInstances;
-    @FindBy(xpath = "//md-select-value [@id=\"select_value_label_93\"]")
+    @FindBy(xpath = "//md-select [@ng-model=\"listingCtrl.computeServer.series\"]")
     private WebElement selectorForSeries;
-    @FindBy(xpath = "//md-select-value[@id=\"select_value_label_94\"]")
+    @FindBy(xpath = "//md-select [@ng-model=\"listingCtrl.computeServer.instance\"]")
     private WebElement machineType;
-    @FindBy(xpath ="//md-checkbox[@aria-label=\"Add GPUs\"][1]")
+    @FindBy(xpath ="//md-checkbox[@ng-model=\"listingCtrl.computeServer.addGPUs\"]")
     private WebElement addGpu;
-    @FindBy(xpath = "//md-select-value [@id=\"select_value_label_463\"]")
+    @FindBy(xpath = "//md-select [@placeholder=\"Local SSD\"]")
     private WebElement localSsd;
     @FindBy(xpath = "//md-select[@placeholder=\"GPU type\"]")
     private WebElement gpuType;
-    @FindBy(xpath = "//md-select[@id=\"select_507\"]")
+    @FindBy(xpath = "//md-select[@placeholder=\"Number of GPUs\"]")
     private WebElement numberOfGpu;
-    @FindBy(xpath = "//md-select-value[@id=\"select_value_label_96\"]")
+    @FindBy(xpath = "//md-select[@placeholder=\"Datacenter location\"]")
     private WebElement datacenterLocation;
-    @FindBy(xpath = "//md-select-value[@id=\"select_value_label_97\"]")
+    @FindBy(xpath = "//md-select[@placeholder=\"Committed usage\"]")
     private WebElement comittedUsage;
     @FindBy(xpath = "//button[contains(text(),\"Add to Estimate\")]")
     private WebElement addToEstimate;
     @FindBy(xpath = "//button[@id=\"Email Estimate\"]")
     private WebElement emailEstimate;
-    @FindBy(xpath = "//b[@class=\"ng-binding\"]")
+    @FindBy(xpath = "//h2[@class=\"md-flex ng-binding ng-scope\"]")
     private WebElement estimatedPrice;
 
     public CalculatorPage(WebDriver driver) {
@@ -47,44 +49,37 @@ public class CalculatorPage extends BasePage {
 
 
 
-        numberOfInstances.sendKeys("4");
+        waitForElements(numberOfInstances).sendKeys("4");
 
         selectorForSeries.click();
         WebElement elementSeries = driver.findElement(By.xpath("//md-option[@value=\"n1\"]"));
         waitForElements(elementSeries).click();
-        //selectorForSeries.findElement(By.xpath("//md-option[@value=\"n1\"]")).click();
 
         machineType.click();
-        WebElement elementMachine = driver.findElement(By.xpath("//md-option[@id=\"select_option_469\"]"));
+        WebElement elementMachine = driver.findElement(By.xpath("//md-option[@value=\"CP-COMPUTEENGINE-VMIMAGE-N1-STANDARD-8\"]"));
         waitForElements(elementMachine).click();
-        //machineType.findElement(By.xpath("//md-option[@id=\"select_option_469\"]")).click();
 
         addGpu.click();
 
         localSsd.click();
-        WebElement elementSsd = driver.findElement(By.xpath("//md-option[@id=\"select_option_490\"]"));
+        WebElement elementSsd = driver.findElement(By.xpath("//md-option[@id=\"select_option_495\"]"));
         waitForElements(elementSsd).click();
-        //localSsd.findElement(By.xpath("//md-option[@id=\"select_option_490\"]")).click();
 
         gpuType.click();
-        WebElement elementGpu = driver.findElement(By.xpath("//md-option[@id=\"select_option_512\"]"));
+        WebElement elementGpu = driver.findElement(By.xpath("//md-option[@value=\"NVIDIA_TESLA_V100\"]"));
         waitForElements(elementGpu).click();
-        //gpuType.findElement(By.xpath("//md-option[@id=\"select_option_512\"]")).click();
 
         numberOfGpu.click();
-        WebElement elementNumberGpu = driver.findElement(By.xpath("//md-option[@id=\"select_option_515\"]"));
+        WebElement elementNumberGpu = driver.findElement(By.xpath("//md-option[@id=\"select_option_520\"]"));
         waitForElements(elementNumberGpu).click();
-        //numberOfGpu.findElement(By.xpath("//md-option[@id=\"select_option_515\"]")).click();
 
         datacenterLocation.click();
-        WebElement elementDatacenter = driver.findElement(By.xpath("//md-option[@id=\"select_option_263\"]"));
+        WebElement elementDatacenter = driver.findElement(By.xpath("//md-option[@id=\"select_option_268\"]"));
         waitForElements(elementDatacenter).click();
-        //datacenterLocation.findElement(By.xpath("//md-option[@id=\"select_option_263\"]")).click();
 
         comittedUsage.click();
-        WebElement elementUsage = driver.findElement(By.xpath("//md-option[@id=\"select_option_136\"]"));
+        WebElement elementUsage = driver.findElement(By.xpath("//md-option[@id=\"select_option_138\"]"));
         waitForElements(elementUsage).click();
-        //comittedUsage.findElement(By.xpath("//md-option[@id=\"select_option_136\"]")).click();
 
         addToEstimate.click();
         emailEstimate.click();
