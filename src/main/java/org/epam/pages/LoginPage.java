@@ -1,17 +1,13 @@
 package org.epam.pages;
 
 import org.epam.BasePage;
+import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-
 
 public class LoginPage extends BasePage {
-    @FindBy(xpath = "//div[@class='YSM5S']")
-    private WebElement searchIcon;
-    @FindBy(xpath = "//input[@class='qdOxv-fmcmS-wGMbrd']")
-    private WebElement input;
+    private static final String SEARCH_ICON_XPATH = "//div[@class='YSM5S']";
+    private static final String INPUT_XPATH = "//input[@class='qdOxv-fmcmS-wGMbrd']";
 
     public LoginPage(WebDriver driver) {
         super(driver);
@@ -23,9 +19,9 @@ public class LoginPage extends BasePage {
     }
 
     public StartingPage search() {
-        this.waitForElements(searchIcon).click();
-        this.input.sendKeys("Google Cloud Platform Pricing Calculator");
-        this.input.sendKeys(Keys.ENTER);
+        waitForElements(driver.findElement(By.xpath(SEARCH_ICON_XPATH))).click();
+        driver.findElement(By.xpath(INPUT_XPATH)).sendKeys("Google Cloud Platform Pricing Calculator");
+        driver.findElement(By.xpath(INPUT_XPATH)).sendKeys(Keys.ENTER);
 
         return new StartingPage(driver);
     }
