@@ -15,10 +15,10 @@ import java.util.regex.Pattern;
 
 
 public class AppTest extends BaseTest {
-    private LoginPage loginPage = new LoginPage(driver);
-    private StartingPage startingPage = new StartingPage(driver);
-    private CalculatorPage calculatorPage = new CalculatorPage(driver);
-    private EmailPage emailPage = new EmailPage(driver);
+    private final LoginPage loginPage = new LoginPage(driver);
+    private final StartingPage startingPage = new StartingPage(driver);
+    private final CalculatorPage calculatorPage = new CalculatorPage(driver);
+    private final EmailPage emailPage = new EmailPage(driver);
 
     @BeforeMethod
     public void setUp() {
@@ -27,18 +27,20 @@ public class AppTest extends BaseTest {
 
     @AfterMethod
     public void closeDriver() {
-        //quit();
+        quit();
     }
 
     @Test
     public void cloudTest() {
-        loginPage.open().search();
+        loginPage.open()
+                .search();
 
         startingPage.search();
 
         calculatorPage.setValues();
 
-        emailPage.open().creatingEmail();
+        emailPage.open()
+                .creatingEmail();
 
         String estimated = emailPage.estimatedEmail();
         String expected = calculatorPage.estimated();
