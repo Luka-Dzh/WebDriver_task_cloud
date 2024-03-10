@@ -1,6 +1,8 @@
 package org.epam.pages;
 
 import org.epam.BasePage;
+import org.epam.Utility;
+import org.epam.decorator.PageDecorator;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -10,6 +12,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
 public class CalculatorPage extends BasePage {
+    private final Utility utility = new Utility(driver);
+
     private static final String NUMBER_OF_INSTANCES_XPATH = "//*[@id=\"input_100\"]";
     private static final String SELECTOR_FOR_SERIES_XPATH = "//md-select [@ng-model=\"listingCtrl.computeServer.series\"]";
     private static final String MACHINE_TYPE_XPATH = "//md-select [@ng-model=\"listingCtrl.computeServer.instance\"]";
@@ -31,11 +35,14 @@ public class CalculatorPage extends BasePage {
     private static final String ELEMENT_USAGE_XPATH = "//md-option[@id=\"select_option_138\"]";
 
 
+    private final PageDecorator pageDecorator;
+
     public CalculatorPage(WebDriver driver) {
         super(driver);
+        this.pageDecorator = new PageDecorator(driver, this);
     }
 
-    public EmailPage setValues() {
+    public EmailPage setValues() {// sets all values for the server
         driver.switchTo().frame(0);
 
         WebElement iFrame = new WebDriverWait(driver, Duration.ofSeconds(20))
@@ -45,30 +52,30 @@ public class CalculatorPage extends BasePage {
         driver.switchTo().frame("myFrame");
 
 
-        waitForElements(driver.findElement(By.xpath(NUMBER_OF_INSTANCES_XPATH))).sendKeys("4");
+        pageDecorator.waitForElements(driver.findElement(By.xpath(NUMBER_OF_INSTANCES_XPATH))).sendKeys("4");
 
         driver.findElement(By.xpath(SELECTOR_FOR_SERIES_XPATH)).click();
-        waitForElements(driver.findElement(By.xpath(ELEMENT_SERIES_XPATH))).click();
+        pageDecorator.waitForElements(driver.findElement(By.xpath(ELEMENT_SERIES_XPATH))).click();
 
         driver.findElement(By.xpath(MACHINE_TYPE_XPATH)).click();
-        waitForElements(driver.findElement(By.xpath(ELEMENT_MACHINE_XPATH))).click();
+        pageDecorator.waitForElements(driver.findElement(By.xpath(ELEMENT_MACHINE_XPATH))).click();
 
         driver.findElement(By.xpath(ADD_GPU_XPATH)).click();
 
         driver.findElement(By.xpath(LOCAL_SSD_XPATH)).click();
-        waitForElements(driver.findElement(By.xpath(ELEMENT_SSD_XPATH))).click();
+        pageDecorator.waitForElements(driver.findElement(By.xpath(ELEMENT_SSD_XPATH))).click();
 
         driver.findElement(By.xpath(GPU_TYPE_XPATH)).click();
-        waitForElements(driver.findElement(By.xpath(ELEMENT_GPU_XPATH))).click();
+        pageDecorator.waitForElements(driver.findElement(By.xpath(ELEMENT_GPU_XPATH))).click();
 
         driver.findElement(By.xpath(NUMBER_OF_GPU_XPATH)).click();
-        waitForElements(driver.findElement(By.xpath(ELEMENT_NUMBER_GPU_XPATH))).click();
+        pageDecorator.waitForElements(driver.findElement(By.xpath(ELEMENT_NUMBER_GPU_XPATH))).click();
 
         driver.findElement(By.xpath(DATACENTER_LOCATION_XPATH)).click();
-        waitForElements(driver.findElement(By.xpath(ELEMENT_DATACENTER_XPATH))).click();
+        pageDecorator.waitForElements(driver.findElement(By.xpath(ELEMENT_DATACENTER_XPATH))).click();
 
         driver.findElement(By.xpath(COMMITTED_USAGE_XPATH)).click();
-        waitForElements(driver.findElement(By.xpath(ELEMENT_USAGE_XPATH))).click();
+        pageDecorator.waitForElements(driver.findElement(By.xpath(ELEMENT_USAGE_XPATH))).click();
 
         driver.findElement(By.xpath(ADD_TO_ESTIMATE_XPATH)).click();
         driver.findElement(By.xpath(EMAIL_ESTIMATE_XPATH)).click();
@@ -77,13 +84,8 @@ public class CalculatorPage extends BasePage {
     }
 
     public String estimated() {
-        String originalWindowHandle = driver.getWindowHandle();
-        for (String windowHandle : driver.getWindowHandles()) {
-            if (!windowHandle.equals(originalWindowHandle)) {
-                driver.switchTo().window(windowHandle);
-                break;
-            }
-        }
+        utility.changeTab();
+
         driver.switchTo().frame(0);
         WebElement iFrame = new WebDriverWait(driver, Duration.ofSeconds(20))
                 .until(ExpectedConditions

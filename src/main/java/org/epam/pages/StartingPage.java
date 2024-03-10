@@ -1,7 +1,7 @@
 package org.epam.pages;
 
-import org.checkerframework.checker.units.qual.C;
 import org.epam.BasePage;
+import org.epam.decorator.PageDecorator;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -10,16 +10,15 @@ import org.openqa.selenium.support.FindBy;
 public class StartingPage extends BasePage {
     @FindBy(xpath = "//a[@class='K5hUy' and @href=\"https://cloud.google.com/products/calculator-legacy?hl=es-419\"]")
     private WebElement calculator;
-    private static final String CALCULATOR_XPATH =
-            "//a[@class='K5hUy' and @href=\"https://cloud.google.com/products/calculator-legacy?hl=es-419\"]";
+    private final PageDecorator pageDecorator;
 
     public StartingPage(WebDriver driver) {
         super(driver);
+        this.pageDecorator = new PageDecorator(driver, this);
     }
-    public CalculatorPage search(){
 
-        //waitForElements(driver.findElement(By.xpath(CALCULATOR_XPATH))).click(); //it does not work this way
-        waitForElements(calculator).click();
+    public CalculatorPage search() {
+        pageDecorator.waitForElements(calculator).click();
         return new CalculatorPage(driver);
     }
 }

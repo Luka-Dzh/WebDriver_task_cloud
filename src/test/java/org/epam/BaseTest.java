@@ -1,11 +1,11 @@
 package org.epam;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.epam.singletone.WebDriverSingleton;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 
 public class BaseTest {
-    protected final WebDriver driver = new ChromeDriver();
+    protected final WebDriver driver = WebDriverSingleton.getDriver();
 
     protected void setUpWebDriver() {
         WebDriverManager.chromedriver().setup();

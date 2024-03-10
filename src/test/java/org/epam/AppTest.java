@@ -10,8 +10,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import static org.epam.Utility.extractDigits;
 
 
 public class AppTest extends BaseTest {
@@ -45,16 +44,5 @@ public class AppTest extends BaseTest {
         String estimated = emailPage.estimatedEmail();
         String expected = calculatorPage.estimated();
         Assert.assertEquals(extractDigits(estimated), extractDigits(expected));
-    }
-    private static String extractDigits(String input) {
-        StringBuilder result = new StringBuilder();
-        Pattern pattern = Pattern.compile("\\d+\\.?\\d*");
-        Matcher matcher = pattern.matcher(input);
-
-        while (matcher.find()) {
-            result.append(matcher.group());
-        }
-
-        return result.toString();
     }
 }

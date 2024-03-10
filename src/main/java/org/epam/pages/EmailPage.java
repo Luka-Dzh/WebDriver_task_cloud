@@ -1,6 +1,7 @@
 package org.epam.pages;
 
 import org.epam.BasePage;
+import org.epam.Utility;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -9,6 +10,7 @@ import java.time.Duration;
 
 
 public class EmailPage extends BasePage {
+    private final Utility utility = new Utility(driver);
     private static final String RANDOM_EMAIL_XPATH = "//a[@href=\"email-generator\"]";
     private static final String EMAIL_XPATH = "//div[@id=\"geny\"]";
     private static final String EMAIL_FIELD_XPATH = "//input[@type=\"email\"]";
@@ -21,21 +23,10 @@ public class EmailPage extends BasePage {
         super(driver);
     }
 
-    public EmailPage open() {
+    public EmailPage open() {//opens the random email generation site
         driver.switchTo().newWindow(WindowType.TAB);
         driver.findElement(By.cssSelector("body")).sendKeys(Keys.CONTROL + "\t");
         driver.get("https://yopmail.com/en/");
-        return this;
-    }
-
-    public EmailPage changeTab() {
-        String originalWindowHandle = driver.getWindowHandle();
-        for (String windowHandle : driver.getWindowHandles()) {
-            if (!windowHandle.equals(originalWindowHandle)) {
-                driver.switchTo().window(windowHandle);
-                break;
-            }
-        }
         return this;
     }
 
@@ -48,7 +39,7 @@ public class EmailPage extends BasePage {
 
         String copyEmail = driver.findElement(By.xpath(EMAIL_XPATH)).getText();
 
-        changeTab();
+        utility.changeTab();
 
         driver.switchTo()
                 .frame(0);
@@ -62,18 +53,19 @@ public class EmailPage extends BasePage {
         driver.findElement(By.xpath(EMAIL_FIELD_XPATH)).sendKeys(copyEmail);
         driver.findElement(By.xpath(SEND_EMAIL_XPATH)).click();
 
-        changeTab();
+        utility.changeTab();
 
         driver.switchTo()
                 .defaultContent();
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("window.scrollBy(0, 200);");
-        new WebDriverWait(driver,Duration.ofSeconds(10));
+        new WebDriverWait(driver, Duration.ofSeconds(10));
         driver.findElement(By.xpath(CHECK_EMAIL_XPATH)).click();
 
         return new CalculatorPage(driver);
     }
-    public String estimatedEmail(){
+
+    public String estimatedEmail() {
         driver.navigate()
                 .refresh();
         driver.navigate()
