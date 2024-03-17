@@ -32,7 +32,7 @@ public class AppTest extends BaseTest {
     @Test
     public void cloudTest() {
         loginPage.open()
-                .search();
+                .search("Google Cloud Platform Pricing Calculator");
 
         startingPage.search();
 

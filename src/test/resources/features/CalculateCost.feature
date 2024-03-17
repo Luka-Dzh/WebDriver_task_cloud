@@ -1,9 +1,19 @@
 Feature: Calculate cost
+  Background:
+    Given the user navigates to the calculator page from the login page
 
-  Scenario: Login to GitHub
+  Scenario: Estimation
 
-    Given User is on "Login Page"
+    Given User is on Calculator Page
 
-    When User enters search info as "Google Cloud Platform Pricing Calculator" and clicks om the first result
+    When User sets all values for the machine and clicks on the Estimate
+    Then User sees the price
 
-    Then User is successfully navigated to the  "Calculator Page"
+  Scenario Outline: Invalid search attempts
+    When the user searches for "<naming>"
+    Then an error message "<errorMessage>" should be displayed
+
+    Examples:
+      | naming                             | errorMessage      |
+      | Google Cloud Pricing Calculator    |  Invalid naming   |
+      | Google Cloud Platform Calculator   |  Incorrect naming |

@@ -74,6 +74,9 @@ public class EmailPage extends BasePage {
         WebElement iFrame = new WebDriverWait(driver, Duration.ofSeconds(20))
                 .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"ifmail\"]")));
         driver.switchTo().frame("ifmail");
-        return driver.findElement(By.xpath(ESTIMATION_XPATH)).getText();
+
+        driver.navigate()
+                .refresh();
+        return waitForElements(driver.findElement(By.xpath(ESTIMATION_XPATH))).getText();
     }
 }

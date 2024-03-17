@@ -22,10 +22,10 @@ public class LoginPage extends BasePage {
         return this;
     }
 
-    public StartingPage search() {
+    public StartingPage search(String searchText) {
         pageDecorator.waitForElements(driver.findElement(By.xpath(SEARCH_ICON_XPATH))).click();
         WebElement input = driver.findElement(By.xpath(INPUT_XPATH));
-        input.sendKeys("Google Cloud Platform Pricing Calculator");
+        input.sendKeys(searchText);
         input.sendKeys(Keys.ENTER);
 
         return new StartingPage(driver);
